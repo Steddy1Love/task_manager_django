@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block title %} Home Page {% endblock %}
+{% block content %}
+<p>This is the home page of the task app. It is also where all of your tasks will be listed</p>
+{% endblock  %}
+<h1>Task list</h1>
+<ul>
+  {% for task in tasks %}
+    <li>
+      {{ task.title }} - Details: {{ task.details }}- Created at: {{ task.created_at }} - Last updated: {{ task.updated_at }}
+      <a href="update_task" type="button" class="btn btn-info">Update</button>
+    </li>
+  {% endfor %}
+</ul>

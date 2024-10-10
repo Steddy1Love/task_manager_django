@@ -1,6 +1,26 @@
-from django.shortcuts import render, HttpResponse
-
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import TaskForm
+from .models import TaskItem
 # Create your views here.
 
 def home(request):
-  return HttpResponse("Hello, World!")
+  tasks = TaskItem.objects.all()
+  return render(request, "home.html", {'tasks': tasks})
+
+def create_task(request):
+  if request.method == 'POST':
+    form = TaskForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return redirect('create_task')
+  else:
+    form = TaskForm()
+    return render(request, 'create_task.html', {'form': form})
+  
+def update_task(request, pk):
+  task = get_object_or_404(Task, pk=pk)
+  if request.method == 'POST':
+    form = TaskForm(request.POST, instance=task)
+    if form.is_valid():
+      form.save()
+      return redirect('home')
