@@ -27,3 +27,14 @@ def update_task(request, pk):
   else:
     form = TaskForm(instance=task)
   return render(request, 'update_task.html', {'form': form})
+
+def delete_task(request, pk):
+  task = get_object_or_404(TaskItem, pk=pk)
+  if request.method == 'DELETE':
+    task.recently_deleted = True
+    task.save()
+  return redirect('home')
+
+def recently_deleted(request):
+  tasks = TaskItem.objects.get(recently_deleted==True)
+  return render(request, 'recently_deleted.html', {'tasks': tasks})

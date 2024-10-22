@@ -4,10 +4,17 @@
 
 <h1>Task list</h1>
 <ul>
-  {% for task in tasks %}
-    <li>
-      {{ task.title }}<br>Details: <p>{{ task.details }}</p><br>Completed: {% if task.completed %}Completed{% else %}Not completed{% endif %}<br>Created at: {{ task.created_at }} - Last updated: {{ task.updated_at }}<br> <a href="{% url 'update_task' task.pk %}" type="button" class="btn btn-info">Update</a>
-    </li>
-  {% endfor %}
+    {% for task in tasks %}
+      <li>{% if task.recently_deleted == False %}
+        {{ task.title }}<br>
+        Details: <p>{{ task.details }}</p><br>
+        Completed: {% if task.completed %}Completed{% else %}Not completed{% endif %}<br>
+        Created at: {{ task.created_at }} - Last updated: {{ task.updated_at }}<br> 
+        <a href="{% url 'update_task' task.pk %}" type="button" class="btn btn-info">Update</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+
+    <a href="{% url 'recently_deleted' %}" type="button" class="btn btn-warning">Looking for deleted tasks?</a>
 </ul>
 {% endblock  %}
